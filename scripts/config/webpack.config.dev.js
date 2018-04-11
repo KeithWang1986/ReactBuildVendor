@@ -36,7 +36,6 @@ const config = {
     },
     plugins: [
         new webpack.DllPlugin({ // 这段配置会在 dist 目录生成一个 vendor-manifest.json 文件。
-            context: resolveApp('public/dist'),
             path: path.join(resolveApp('public/dist'), '[name]-manifest.json'), // 各模块的索引文件，提供给DllReferencePlugin读取
             name: '[name]_library' // 所有的内容会存放在这个参数指定的变量下，这个参数跟 output.library保持一致
         })
