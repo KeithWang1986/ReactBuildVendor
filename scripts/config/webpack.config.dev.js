@@ -2,6 +2,7 @@ const resolveApp = require('./common');
 const file_list = require('../../public/file-list');
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const config = {
     devtool: 'cheap-module-source-map',
@@ -31,10 +32,45 @@ const config = {
                     // directory for faster rebuilds.
                     cacheDirectory: true,
                 }
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true //css压缩
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true //css压缩
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                minimize: true //css压缩
+                            }
+                        }
+                    ]
+                })
             }
         ]
     },
     plugins: [
+        new ExtractTextPlugin("css/[name].css"),
         new webpack.DllPlugin({ // 这段配置会在 dist 目录生成一个 vendor-manifest.json 文件。
             path: path.join(resolveApp('public/dist'), '[name]-manifest.json'), // 各模块的索引文件，提供给DllReferencePlugin读取
             name: '[name]_library' // 所有的内容会存放在这个参数指定的变量下，这个参数跟 output.library保持一致
