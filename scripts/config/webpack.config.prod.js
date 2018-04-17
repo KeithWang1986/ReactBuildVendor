@@ -48,6 +48,16 @@ const config = {
                 })
             },
             {
+                test: /\.(png|jpg|gif)/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 1,
+                        name: 'img/[name].[hash:7].[ext]'
+                    }
+                }]
+            },
+            {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
@@ -73,7 +83,7 @@ const config = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }), 
-        new ExtractTextPlugin("css/[name].css"),
+        new ExtractTextPlugin("[name].css"),
         // Minify the code.
         new webpack.optimize.UglifyJsPlugin({
             compress: {

@@ -48,6 +48,16 @@ const config = {
                 })
             },
             {
+                test: /\.(png|jpg|gif)/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 1,
+                        name: 'css/img/[name].[hash:7].[ext]'
+                    }
+                }]
+            },
+            {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
